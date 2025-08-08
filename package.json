@@ -1,0 +1,25 @@
+{
+  "name": "cedh-analyzer-static-server",
+  "version": "1.0.0",
+  "description": "Simple Express server to host the cEDH Card Analyzer static files.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild index.tsx --bundle --outfile=bundle.js --jsx=automatic --platform=browser",
+    "start": "npm run build && node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "fuse.js": "^7.0.0",
+    "jstat": "^1.9.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.12.7",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "esbuild": "^0.20.2"
+  }
+}

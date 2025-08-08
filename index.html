@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-slate-200 dark:scrollbar-thumb-slate-600 dark:scrollbar-track-slate-800">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cEDH Card Analyzer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Exo+2:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://fav.farm/📊" />
+    
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <style>
+      /* Force dark mode styles by overriding light mode defaults */
+      html {
+        color-scheme: dark !important;
+      }
+      
+      /* Ensure dark colors are always applied */
+      body {
+        background-color: #070810 !important;
+        color: #D1D3D8 !important;
+        font-family: 'Montserrat', sans-serif;
+      }
+      
+      :root {
+        --color-primary-obsidian: #050608;
+        --color-primary-charcoal: #0F1118;
+        --color-primary-slate: #1A1D28;
+        --color-accent-gold: #C4A66B;
+        --color-accent-amber: #B89660;
+        --color-accent-copper: #8B6F47;
+        --color-ui-background: #070810;
+        --color-ui-surface: #0F1118;
+        --color-ui-surface-elevated: #181B26;
+        --color-ui-border: #252935;
+        --color-ui-text-primary: #D1D3D8;
+        --color-ui-text-secondary: #8A8F9A;
+        --color-ui-text-muted: #5A6069;
+        --color-status-success: #4A6B5A;
+        --color-status-success-text: #a7f3d0;
+        --color-status-warning: #8B6F3A;
+        --color-status-warning-text: #fef08a;
+        --color-status-error: #6B3A3A;
+        --color-status-error-text: #fca5a5;
+        --color-status-info: #3A4A6B;
+        --color-magic-w: #E8E4D9;
+        --color-magic-u: #2A4A6B;
+        --color-magic-b: #1C1C1C;
+        --color-magic-r: #6B3A3E;
+        --color-magic-g: #3A5A44;
+      }
+
+      /* Manual Font Application */
+      .font-heading { font-family: 'Exo 2', sans-serif; }
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+      /* Manual Theme Implementation for Custom Tailwind Classes */
+      .bg-ui-surface { background-color: var(--color-ui-surface); }
+      .bg-ui-surface-elevated { background-color: var(--color-ui-surface-elevated); }
+      .bg-brand-charcoal { background-color: var(--color-primary-charcoal); }
+      .bg-brand-gold { background-color: var(--color-accent-gold); }
+      .bg-brand-amber { background-color: var(--color-accent-amber); }
+      .text-ui-text-primary { color: var(--color-ui-text-primary); }
+      .text-ui-text-secondary { color: var(--color-ui-text-secondary); }
+      .text-ui-text-muted { color: var(--color-ui-text-muted); }
+      .text-brand-gold { color: var(--color-accent-gold); }
+      .text-brand-amber { color: var(--color-accent-amber); }
+      .text-brand-obsidian { color: var(--color-primary-obsidian); }
+      .border-ui-border { border-color: var(--color-ui-border); }
+      .border-brand-gold { border-color: var(--color-accent-gold); }
+      
+      /* Opacity classes need escaping for '/' */
+      .\!bg-ui-surface-elevated\/50, .bg-ui-surface-elevated\/50 { background-color: rgba(24, 27, 38, 0.5); }
+      .\!bg-ui-surface\/50, .bg-ui-surface\/50 { background-color: rgba(15, 17, 24, 0.5); }
+      .\!bg-ui-surface\/80, .bg-ui-surface\/80 { background-color: rgba(15, 17, 24, 0.8); }
+
+      /* Status Colors */
+      .bg-ui-text-muted\/20 { background-color: rgba(90, 96, 105, 0.2); }
+
+      .\!bg-status-success\/10, .bg-status-success\/10 { background-color: rgba(74, 107, 90, 0.1); }
+      .\!bg-status-success\/30, .bg-status-success\/30 { background-color: rgba(74, 107, 90, 0.3); }
+      .border-status-success\/30 { border-color: rgba(74, 107, 90, 0.3); }
+      
+      .bg-status-warning\/20 { background-color: rgba(139, 111, 58, 0.2); }
+      .\!bg-status-warning\/30, .bg-status-warning\/30 { background-color: rgba(139, 111, 58, 0.3); }
+      .border-status-warning\/50 { border-color: rgba(139, 111, 58, 0.5); }
+
+      .\!bg-status-error\/10, .bg-status-error\/10 { background-color: rgba(107, 58, 58, 0.1); }
+      .bg-status-error\/20 { background-color: rgba(107, 58, 58, 0.2); }
+      .\!bg-status-error\/30, .bg-status-error\/30 { background-color: rgba(107, 58, 58, 0.3); }
+      .border-status-error\/30 { border-color: rgba(107, 58, 58, 0.3); }
+      .border-status-error\/50 { border-color: rgba(107, 58, 58, 0.5); }
+
+      /* Hover States */
+      .hover\:bg-brand-amber:hover { background-color: var(--color-accent-amber); }
+      .hover\:bg-brand-gold:hover { background-color: var(--color-accent-gold); }
+      .hover\:text-brand-obsidian:hover { color: var(--color-primary-obsidian); }
+      .hover\:bg-brand-charcoal:hover { background-color: var(--color-primary-charcoal); }
+      .hover\:text-ui-text-primary:hover { color: var(--color-ui-text-primary); }
+      .hover\:text-brand-gold:hover { color: var(--color-accent-gold); }
+
+      /* Focus States */
+      .focus\:ring-brand-gold:focus {
+        outline: 2px solid var(--color-accent-gold);
+        outline-offset: 2px;
+      }
+      .focus\:border-brand-gold:focus { border-color: var(--color-accent-gold); }
+
+      /* Other element states */
+      .accent-brand-gold { accent-color: var(--color-accent-gold); }
+      input::placeholder { color: var(--color-ui-text-muted); }
+
+      /* Component-specific fixes */
+      /* Fix select dropdown background and add arrow */
+      select.bg-ui-surface {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%238A8F9A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      .aurora-background {
+        position: relative;
+        overflow: hidden;
+      }
+      .aurora-background::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150%;
+        height: 150%;
+        background-image:
+            radial-gradient(at 20% 20%, hsla(43, 45%, 59%, 0.15) 0px, transparent 50%),
+            radial-gradient(at 80% 20%, hsla(40, 50%, 55%, 0.15) 0px, transparent 50%),
+            radial-gradient(at 50% 80%, hsla(38, 56%, 44%, 0.15) 0px, transparent 50%);
+        transform: translate(-50%, -50%);
+        animation: aurora-spin 25s linear infinite;
+        will-change: transform;
+        z-index: 0;
+      }
+       @keyframes aurora-spin {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+    </style>
+    <script>
+      // Force dark mode on page load and prevent light mode
+      (function() {
+        // Add dark class to HTML element immediately
+        document.documentElement.classList.add('dark');
+        
+        // Override any media queries or browser preferences
+        const style = document.createElement('style');
+        style.textContent = `
+          @media (prefers-color-scheme: light) {
+            :root {
+              color-scheme: dark !important;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      })();
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom": "https://esm.sh/react-dom@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "jstat": "https://esm.sh/jstat@^1.9.6",
+    "fuse.js": "https://esm.sh/fuse.js@^7.1.0",
+    "recharts": "https://esm.sh/recharts@^3.1.0",
+    "express": "https://esm.sh/express@^5.1.0",
+    "path": "https://esm.sh/path@^0.12.7",
+    "url": "https://esm.sh/url@^0.11.4"
+  }
+}
+</script>
+</head>
+  <body class="bg-ui-background text-ui-text-primary antialiased">
+    <div id="root"></div>
+    <script src="/bundle.js"></script>
+</body>
+</html>
