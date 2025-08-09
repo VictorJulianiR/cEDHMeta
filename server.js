@@ -109,7 +109,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`cEDH Analyzer server is running on http://localhost:${port}`);
+    console.log(`cEDH Data server is running on http://localhost:${port}`);
     console.log('Press Ctrl+C to stop.');
 });
 

@@ -1,7 +1,7 @@
 {
-  "name": "cedh-analyzer-static-server",
+  "name": "cedh-data-static-server",
   "version": "1.0.0",
-  "description": "Simple Express server to host the cEDH Card Analyzer static files.",
+  "description": "Simple Express server to host the cEDH Card Data static files.",
   "main": "server.js",
   "type": "module",
   "scripts": {

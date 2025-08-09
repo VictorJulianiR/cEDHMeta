@@ -1,6 +1,6 @@
 import { SCRYFALL_API_BASE } from '../constants';
 
-const SCRYFALL_REQUEST_HEADERS = { 'User-Agent': 'cEDHCardAnalyzerWebApp/1.0', 'Accept': 'application/json' };
+const SCRYFALL_REQUEST_HEADERS = { 'User-Agent': 'cEDHCardDataWebApp/1.0', 'Accept': 'application/json' };
 const SCRYFALL_CATALOG_CACHE_KEY = 'scryfallCardNamesCatalog';
 const CACHE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 

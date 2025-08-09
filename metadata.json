@@ -1,5 +1,5 @@
 {
-  "name": " cEDH Card Analyzer v6 -  Deploy Try",
+  "name": " cEDH Card Data v6 -  Deploy Try",
   "description": "An advanced analytics tool to analyze card and commander performance in competitive EDH, using data from EDHTop16 and Scryfall.",
   "requestFramePermissions": [],
   "prompt": ""
